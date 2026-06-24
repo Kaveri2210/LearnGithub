@@ -28,3 +28,14 @@ test.only('search for playwright', async ({ page }) => {
 
   await expect(page.locator('body')).toContainText('browser');
 });
+
+test('user login', async ({ page }) => {
+  await page.goto('https://example.com/login');
+
+  await page.getByLabel('Username').fill('testuser');
+  await page.getByLabel('Password').fill('password123');
+
+  await page.getByRole('button', { name: 'Login' }).click();
+
+  await expect(page.getByText('Welcome')).toBeVisible();
+});
