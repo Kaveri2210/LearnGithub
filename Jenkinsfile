@@ -2,27 +2,28 @@ pipeline {
     agent any
 
     stages {
+
         stage('Checkout') {
             steps {
-                echo 'Checking out code from GitHub'
+                checkout scm
             }
         }
 
-        stage('Build') {
+        stage('Install Dependencies') {
             steps {
-                echo 'Building project...'
+                bat 'npm install'
             }
         }
 
-        stage('Test') {
+        stage('Run Playwright Tests') {
             steps {
-                echo 'Running tests...'
+                bat 'npx playwright test'
             }
         }
 
-        stage('Deploy') {
+        stage('Report') {
             steps {
-                echo 'Deploying application...'
+                echo 'Tests executed successfully'
             }
         }
     }
