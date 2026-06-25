@@ -19,7 +19,7 @@ test('get started link', async ({ page }) => {
 });
 
 
-test.only('search for playwright', async ({ page }) => {
+test('search for playwright', async ({ page }) => {
   await page.goto('https://playwright.dev/');
 
   await page.getByLabel('Search').click();
