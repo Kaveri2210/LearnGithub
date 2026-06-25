@@ -15,15 +15,15 @@ pipeline {
             }
         }
 
-        stage('Run Playwright Tests') {
+        stage('Install Playwright Browsers') {
             steps {
-                bat 'npx playwright test'
+                bat 'npx playwright install'
             }
         }
 
-        stage('Report') {
+        stage('Run Tests') {
             steps {
-                echo 'Tests executed successfully'
+                bat 'npx playwright test'
             }
         }
     }
