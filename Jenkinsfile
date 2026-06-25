@@ -22,12 +22,7 @@ pipeline {
             }
         }
  
-        stage('Generate Allure Report') {
-            steps {
-                bat 'npm run allure-generate'
-            }
-        }
-    }
+       
  
     post {
         always {
