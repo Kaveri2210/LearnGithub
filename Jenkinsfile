@@ -34,7 +34,7 @@ pipeline {
 
         always {
 emailext body: 'test body', subject: 'Pipeline status', to: 'kaveri.gavhane.21@gmail.com'
-            archiveArtifacts artifacts: 'playwright-report/**', fingerprint: true
+            archiveArtifacts artifacts: 'playwright-report/**,test-results/**', fingerprint: true
 
             publishHTML(target: [
                 allowMissing: true,
