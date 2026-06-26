@@ -33,7 +33,7 @@ pipeline {
     post {
 
         always {
-
+emailext body: 'test body', subject: 'Pipeline status', to: 'kaveri.gavhane.21@gmail.com'
             archiveArtifacts artifacts: 'playwright-report/**', fingerprint: true
 
             publishHTML(target: [
