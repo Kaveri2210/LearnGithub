@@ -1,38 +1,68 @@
 pipeline {
+
     agent any
+
+    tools {
+        nodejs "NodeJS-22"
+    }
 
     stages {
 
         stage('Checkout') {
             steps {
-                echo 'Checking out source code...'
                 checkout scm
             }
         }
 
         stage('Install Dependencies') {
             steps {
-                echo 'Installing dependencies...'
                 bat 'npm install'
+            }
+        }
+
+        stage('Install Playwright Browsers') {
+            steps {
                 bat 'npx playwright install'
             }
         }
 
         stage('Run Tests') {
             steps {
-                echo 'Running Playwright tests...'
-                bat 'npm test'
+                bat 'npx playwright test'
             }
         }
+
+        stage('Generate HTML Report') {
+            steps {
+                bat 'npx playwright show-report'
+            }
+        }
+
     }
 
     post {
+
         always {
-            echo 'Publishing Allure Report...'
-            allure([
-                includeProperties: false,
-                results: [[path: 'allure-results']]
+
+            archiveArtifacts artifacts: 'playwright-report/**', fingerprint: true
+
+            publishHTML(target: [
+                allowMissing: true,
+                alwaysLinkToLastBuild: true,
+                keepAll: true,
+                reportDir: 'playwright-report',
+                reportFiles: 'index.html',
+                reportName: 'Playwright Report'
             ])
+
+        }
+
+        success {
+            echo 'Tests Passed'
+        }
+
+        failure {
+            echo 'Tests Failed'
         }
     }
 }
